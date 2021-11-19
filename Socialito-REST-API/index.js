@@ -10,9 +10,11 @@ const authRoute=require("./routes/auth");
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true,useUnifiedTopologoy:true},()=>{
-    console.log("connected to Database successfully!");
-})
+mongoose.connect(process.env.MONGO_URL,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+
+}).then(()=>console.log("DB Connection Successful!")).catch((err)=>console.log(err));
 
 app.use(express.json());
 app.use(helmet());

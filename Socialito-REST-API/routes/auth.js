@@ -19,8 +19,29 @@ router.post("/register",async (req,res)=>{
 
 
     }catch(err){
-        console.log(err);
-}
+        res.status(500).json(err);
+    }
+});
+//Login
+router.post("/login",async (req,res)=>{
+    try{
+        //invalid email
+        const user= await User.findOne({email:req.body.email});
+        !user&&res.status(404).json("User not found!");
+
+        
+        //invalid password
+        const realPassword = await bcrypt.compare(req.body.password,user.password);
+        !realPassword&&res.status(400).json("Wrong Password!")
+        
+        //correct credintals
+
+        res.status(200).json(user); 
+
+
+    }catch(err){
+        res.status(500).json(err);
+    }
 
 });
 
