@@ -3,8 +3,23 @@ import Sidebar from "../../components/sidebar/Sidebar"
 import Topbar from "../../components/topbar/Topbar"
 import Rightbar from "../../components/rightbar/Rightbar"
 import "./profile.css"
+import { useState } from "react"
+import { useEffect } from "react"
+import axios from "axios"
+import { useParams } from "react-router-dom"
 
 export default function Profile() {
+    const username=useParams().username
+    const [user,setUser]=useState({});
+    useEffect(()=>{
+        const fetchUser= async()=>{
+            const res= await axios.get(`/users/?username=${username}`)
+            setUser(res.data)
+        }
+        fetchUser();
+    },[username])
+   
+    const pf="http://localhost:3000/assets/";
     return (
         <>
         <Topbar/>
@@ -13,18 +28,18 @@ export default function Profile() {
             <div className="profileRight">
                 <div className="profileRightTop">
                     <div className="profileCover">
-                        <img src="assets/post/2.jpg" className="profileCoverImg" alt="" />
-                        <img src="assets/person/3.jpg" className="profileUserImg" alt="" />
+                        <img src={user.coverPic||pf+"person/no-cover.jpg"} className="profileCoverImg" alt="" />
+                        <img src={user.profilePic||pf+"person/no-profile.png"} className="profileUserImg" alt="" />
                     </div>
                     <div className="profileInfo">
-                        <h4 className="profileInfoName">Khaled Samir</h4>
-                        <span className="profileInfoBio">That is my bio</span>
+                        <h4 className="profileInfoName">{user.username}</h4>
+                        <span className="profileInfoBio">{user.desc}</span>
      
                     </div>
                     </div>
                 <div className="profileRightBottom">
-                    <Feed/>
-                    <Rightbar profile/>
+                    <Feed username={username}/>
+                    <Rightbar user={user}/>
                 </div>
                 
             </div>
