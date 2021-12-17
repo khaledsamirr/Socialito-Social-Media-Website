@@ -40,6 +40,15 @@
     flex-direction: column;
     justify-content: space-between;
 }
+.loginBoxForm{
+    height: 350px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 .loginInput{
     height: 50px;
     border-radius: 10px;
@@ -72,5 +81,18 @@
     color: white;
     font-weight: 600;
     cursor: pointer;
-  
+    width: 100%;
+    align-self: center;
+
+}
+.registerDivButton{
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: purple;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    width: 92%;
+    align-self: center;
 }

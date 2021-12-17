@@ -5,11 +5,13 @@ import{format}from "timeago.js"
 
 import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 export default function Post({post}) {
     const [like,setLike]=useState(post.likes.length)
     const [isLiked,setIsLiked]=useState(false)
     const [user,setUser]=useState({});
-    const pf="http://localhost:3000/assets/";
+    const currentUser = useSelector((state) => state.user.currentUser);
+    const pf="http://localhost:8800/images/";
     
     useEffect(()=>{
         const fetchUser= async()=>{
@@ -19,7 +21,15 @@ export default function Post({post}) {
         fetchUser();
        
     },[post.userId])
-    const likeHandler=()=>{
+    useEffect(()=>{
+        setIsLiked(post.likes.includes(currentUser._id))
+    },[currentUser._id],post.likes)
+    const likeHandler= async()=>{
+        try{
+            await axios.put("/posts/"+post._id+"/like",{userId:currentUser._id})
+        }catch(err){
+
+        }
         setLike(isLiked?like-1:like+1)
         setIsLiked(!isLiked)
     }
@@ -31,7 +41,7 @@ export default function Post({post}) {
                 <div className="postTop">
                     <div className="postTopLeft">
                         <Link to={`profile/${user.username}`}>
-                        <img src={user.profilePicture||pf+"person/no-profile.png"}alt="" className="postProfilePic" />
+                        <img src={user.profilePic?pf+user.profilePic:pf+"person/no-profile.png"}alt="" className="postProfilePic" />
                         </Link>
                         <span className="postUsername">{user.username} </span>
                         <span className="postTimeAgo">{format(post.createdAt)}</span>

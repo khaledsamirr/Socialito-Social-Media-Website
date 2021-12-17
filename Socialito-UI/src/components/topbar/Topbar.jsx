@@ -1,8 +1,13 @@
 import "./topbar.css";
 import {Search,Person, Chat, Notifications} from "@material-ui/icons"
 import {Link} from 'react-router-dom';
+import { useSelector } from "react-redux";
+
+
 
 export default function Topbar() {
+    const user = useSelector((state) => state.user.currentUser);
+    const pf="http://localhost:8800/images/";
     return (
         <div className="topbarContainer">
             <div className="topbarLeft">
@@ -35,8 +40,10 @@ export default function Topbar() {
                         <span className="topbarIconCounter">7</span>
                     </div>
                 </div>
-                <img src="/assets/2.jpg" alt="" className="topbarProfilePic" />
-            </div>
+                <Link to={`/profile/${user.username}`}>
+                    <img src={user.profilePicture?pf+user.profilePicture:pf+"person/no-profile.png"} alt="" className="topbarProfilePic" />
+                </Link>
+                </div>
         </div>
     )
 }

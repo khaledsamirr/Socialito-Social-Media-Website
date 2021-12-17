@@ -2,6 +2,7 @@ const User=require("../models/User");
 const router=require("express").Router();
 const bcrypt=require("bcrypt");
 
+
 //UPDATE
 router.put("/:id",async (req,res)=>{
     if(req.body.userId== req.params.id || req.body.isAdmin){
@@ -96,4 +97,25 @@ router.put("/:id/unfollow",async(req,res)=>{
         res.status(403).json("you can't unfollow yourself!");
     }
 }) 
+
+//get friends
+router.get("/friends/:userId",async(req,res)=>{
+    try{
+        const user=await User.findById(req.params.userId);
+        const friends= await Promise.all(
+            user.following.map(friendId=>{
+                return User.findById(friendId);
+            })
+        )
+        let friendList=[];
+        friends.map(friend=>{
+            const{_id,username,profilePic}=friend;
+            friendList.push({_id,username,profilePic});
+        });
+        res.status(200).json(friendList);
+        
+    }catch(err){
+        res.status(500).json(err);
+    }
+})
 module.exports=router

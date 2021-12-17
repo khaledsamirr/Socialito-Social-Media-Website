@@ -5,13 +5,13 @@ const bcrypt=require("bcrypt");
 //Register
 router.post("/register",async (req,res)=>{
     try{
-        const salt= await bcrypt.genSalt(10);
-        const hashedPassword=await bcrypt.hash(req.body.password,salt);
+     //   const salt= await bcrypt.genSalt(10);
+     //   const hashedPassword=await bcrypt.hash(req.body.password,salt);
         
         const newUser=new User({
             username:req.body.username,
             email:req.body.email,
-            password:hashedPassword
+            password:req.body.password
         });
         
         const user=await newUser.save();
@@ -31,7 +31,7 @@ router.post("/login",async (req,res)=>{
 
         
         //invalid password
-        const realPassword = await bcrypt.compare(req.body.password,user.password);
+        const realPassword =req.body.password===user.password?true:false;
         !realPassword&&res.status(400).json("Wrong Password!")
         
         //correct credintals

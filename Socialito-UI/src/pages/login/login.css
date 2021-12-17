@@ -40,6 +40,16 @@
     flex-direction: column;
     justify-content: space-between;
 }
+.loginBoxForm{
+    height: 200px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+ 
+}
+
 .loginInput{
     height: 50px;
     border-radius: 10px;
@@ -59,6 +69,12 @@
     font-weight: 600;
     cursor: pointer;
 }
+.loginButton:focus{
+    outline: none;
+}
+.loginButton:disabled{
+    cursor: not-allowed;
+}
 .loginForgot{
     text-align: center;
     color:#555;
@@ -72,4 +88,17 @@
     color: white;
     font-weight: 600;
     cursor: pointer;
+    width: 92%;
+    align-self:center;
+}
+.loginDivButton{
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: purple;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    width: 92%;
+    align-self: center;
 }
